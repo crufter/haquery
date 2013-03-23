@@ -8,7 +8,7 @@ Haquery is **jQuery for Haskell**, a CSS selector based manipulation and templat
 The advantage is that most web developers already know CSS selectors, and if you are one of them,  
 you don't have to learn a new template language just to render data as HTML pages.
 
-Also, you can use any data structure, any functions with Spice.  
+Also, you can use any data structure, any functions with Haquery.  
 No more "if there is an if construct why there is no else" moment like with many other template
 languages.
 
