@@ -224,27 +224,34 @@ render (Text i a)     = a
   Single tag functions.  
 --------------------------------------------------------------------}
 
+-- | Returns the attributes of a tag.
 attrs :: Tag ->         Attrs
 attrs (Doctype _ _)     = toAttrs []
 attrs (Text _ _)        = toAttrs []
 attrs (Tag _ _ a _)     = a
 
+-- | Returns an attribute of a tag
+-- specified by the first argument.
 attr :: T.Text -> Tag -> Maybe T.Text
 attr attrName tag = case M.lookup attrName $ attrsToMap $ attrs tag of
     Just v      -> Just v
     Nothing     -> Nothing
 
+-- | Sets the attribute of a tag
+-- specified by the first argument.
 setAttr :: T.Text -> T.Text -> Tag -> Tag
 setAttr key val tag = case tag of
     Doctype _ _         -> tag
     Text _ _            -> tag
     Tag i n (Attrs a) c -> Tag i n (Attrs $ M.insert key val a) c
 
+-- | Returns the (direct) children of a tag.
 children :: Tag ->          [Child]
 children (Doctype _ _)      = []
 children (Text _ _)         = []
 children (Tag _ _ _ c)      = c
 
+-- | Returns the name of a tag.
 name :: Tag ->      T.Text
 name (Doctype _ _)  = "doctype"
 name (Text _ _)     = "text"
@@ -254,6 +261,7 @@ name (Tag _ n _ _)  = n
   Manipulation.  
 --------------------------------------------------------------------}
 
+-- | Adds the class specified by the first argument to the tag.
 addClass :: T.Text -> Tag -> Tag
 addClass clas tag = case attr "class" tag of
     Nothing     -> setAttr "class" clas tag
@@ -261,6 +269,7 @@ addClass clas tag = case attr "class" tag of
         then tag
         else setAttr "class" (T.intercalate " " $ clas:spl) tag
 
+-- | Returns true if the tag already has the given class.
 hasClass :: T.Text -> Tag -> Bool
 hasClass clas tag = case attr "class" tag of
     Nothing     -> False
@@ -280,6 +289,17 @@ toggleClass clas tag = case attr "class" tag of
         then setAttr "class" (T.intercalate " " $ filter (/= clas) spl) tag
         else setAttr "class" (T.intercalate " " $ clas:spl) tag
 
+-- | Insert the first argument as the last child of the second.
+append :: Tag -> Tag -> Tag
+append what to = case to of
+        Tag ind n a c   -> Tag ind n a (children to ++ [what])
+        otherwise       -> to
+
+-- | Inserts the first argument as the first child of the second.
+prepend :: Tag -> Tag -> Tag
+prepend what to = case to of
+        Tag ind n a c   -> Tag ind n a (what:c)
+        otherwise       -> to
 
 {--------------------------------------------------------------------
   Selector implementation.  

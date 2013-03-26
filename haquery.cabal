@@ -2,7 +2,7 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 name:                haquery
-version:             0.1.0.0
+version:             0.1.1.0
 synopsis:            jQuery for Haskell.
 -- description:         
 homepage:            https://github.com/recurziv/haquery
