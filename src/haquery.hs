@@ -809,6 +809,7 @@ parseHtml t =
             TT.TagLeaf tg                   -> case tg of
                 TS.TagOpen tname' atts' -> tag tname' atts' []
                 TS.TagText str          -> text str
-                otherwise               -> error $ "No good: " ++ show tg
+                TS.TagComment str       -> text str
+                otherwise               -> error $ "Unexpected tag type: " ++ show tg
     in map convert trees
         
