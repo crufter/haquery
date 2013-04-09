@@ -49,6 +49,8 @@ module Haquery (
     attr,
     children,
     name,
+    append,
+    prepend,
     -- * Manipulation
     addClass,
     removeClass,
@@ -57,7 +59,9 @@ module Haquery (
     -- * Parse HTML
     parseHtml,
     -- * Exported for testing purposes only
-    matches, parseSelector, example
+    matches,
+    parseSelector,
+    example
 ) where
 
 import qualified Data.Text as T
