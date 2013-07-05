@@ -1,10 +1,10 @@
 Haquery
 =====
 
-### What is it?
+### What is this?
 Haquery is **jQuery for Haskell**, a CSS selector based manipulation and template engine.
 
-### Why
+### Why?
 The advantage is that most web developers already know CSS selectors, and if you are one of them,  
 you don't have to learn a new template language just to render data as HTML pages.
 
@@ -12,9 +12,12 @@ Also, you can use any data structure, any functions with Haquery.
 No more "if there is an if construct why there is no else" moment like with many other template
 languages.
 
+### Installation
+This package is not Hackage currently, so you have to clone this repo and issue a cabal install locally.
+
 ### Selectors
 
-    Example                     Name                                    Link
+    Example                     Name                                    URL
     *                           - All selector                          http://api.jquery.com/all-selector/
     #id                         - Id selector                           http://api.jquery.com/id-selector/
     .class                      - Class selector                        http://api.jquery.com/class-selector/
