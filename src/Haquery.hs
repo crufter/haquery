@@ -49,6 +49,7 @@ module Haquery (
     attr,
     children,
     name,
+    innerText,
     append,
     prepend,
     -- * Manipulation
@@ -260,6 +261,12 @@ name :: Tag ->      T.Text
 name (Doctype _ _)  = "doctype"
 name (Text _ _)     = "text"
 name (Tag _ n _ _)  = n
+
+-- | Returns text contents of a tag
+innerText :: Tag -> T.Text
+innerText (Doctype _ text) = text
+innerText (Text _ text) = text
+innerText (Tag _ _ _ children) = T.concat $ map innerText children
 
 {--------------------------------------------------------------------
   Manipulation.  
