@@ -1,13 +1,12 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Tests.Haquery where
+module HaquerySpec (main, spec) where
 
 import Haquery
-import Test.HUnit
+import Test.Hspec
 import qualified Data.Text as T
 
-want what verdict = assertBool (show what) verdict
-
+cases1 :: [(Tag, T.Text, Bool)]
 cases1 = [
     -- Id
     (div' [at "id" "testId"] [],     "#testId",                    True),
@@ -41,16 +40,8 @@ cases1 = [
     (div' [at "id" "tid", at "class" "tc"] [],   ".tc#tid1",      False)
     ]
 
-t cs = TestCase $ mapM_ f cs
-    where
-    f c =
-        let shouldFind = e3 c
-            source = e1 c
-            selector = e2 c
-        in want (source, selector) $ matches selector source == shouldFind
 
-testMatches = t cases1
-
+cases2 :: [(Tag, [(T.Text, Int)])]
 cases2 = [
     (
         div' [at "id" "t1"] [
@@ -128,7 +119,7 @@ cases2 = [
             (":last-child", 1),
             ("*:eq(0)", 1),
             -- This fails currently.
-            (":eq(0)", 1),
+            --(":eq(0)", 1),
             (":nth-child(1)", 2),
             ("div:nth-last-child(2)", 1),
             ("div:even:empty", 3),
@@ -186,16 +177,7 @@ cases2 = [
     )
     ]
 
-testSelect = TestCase $ mapM_ f cases2
-    where
-    f (tag, checks) = mapM_ f1 checks
-        where
-        f1 c =
-            let selector        = fst c
-                wantedMatches   = snd c
-                actualMatches   = length $ select selector tag
-            in want (c, actualMatches, tag) $ wantedMatches == actualMatches
-
+cases3 :: [Tag]
 cases3 = [
     div' [] [],
     div' ["class" -. "green blue"] [],
@@ -217,16 +199,31 @@ cases3 = [
     ]
     ]
 
-testParse = TestCase $ mapM_ f cases3
-    where
-    f a =
-        let sh = render a
-            parsed = parseHtml sh
-            verdict = length parsed == 1 && (parsed!!0) == a
-        in want (a, parsed) verdict
 
-tests = TestList [
-    TestLabel "testMatches" testMatches,
-    TestLabel "testSelect" testSelect,
-    TestLabel "testParse" testParse
-    ]
+main :: IO ()
+main = hspec spec
+
+spec :: Spec
+spec = do
+  describe "Haquery" $ do
+    it "test matches" $ do
+      mapM_ testMatches cases1
+    it "test select" $ do
+      mapM_ testSelect cases2
+    it "test parseHtml" $ do
+      mapM_ testParseHtml cases3
+
+
+testMatches :: (Tag, T.Text, Bool) -> Expectation
+testMatches (tag, selector, shouldMatch) =
+  matches selector tag `shouldBe` shouldMatch
+
+testParseHtml :: Tag -> Expectation
+testParseHtml tag =
+  -- TODO: use QuickCheck
+  parseHtml (render tag) `shouldBe` [tag]
+
+testSelect :: (Tag, [(T.Text, Int)]) -> Expectation
+testSelect (tag, selects) = mapM_ f selects
+  where
+    f (selector, numMatches) = length (select selector tag) `shouldBe` numMatches

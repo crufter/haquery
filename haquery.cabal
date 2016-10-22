@@ -26,3 +26,12 @@ library
                        parsec,
                        tagsoup
   hs-source-dirs:      src
+
+Test-Suite test-haquery
+    type:           exitcode-stdio-1.0
+    main-is:        Spec.hs
+    hs-source-dirs: tests
+    build-depends:  base,
+                    haquery,
+                    hspec,
+                    text
