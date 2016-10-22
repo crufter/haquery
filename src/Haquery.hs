@@ -32,7 +32,7 @@ module Haquery (
     link,
     script,
     -- Attributes
-    cat,
+    at,
     (-.),
     id',
     class',
@@ -153,29 +153,29 @@ script a c  = tag "script" a c
 img a c     = tag "img" a c
 
 -- Frequently used attributes
-id' a       = cat "id" a
-class' a    = cat "class" a
-src a       = cat "src" a
-style a     = cat "style" a
-href a      = cat "href" a
-type' a     = cat "type" a
+id' a       = at "id" a
+class' a    = at "class" a
+src a       = at "src" a
+style a     = at "style" a
+href a      = at "href" a
+type' a     = at "type" a
 
 -- | Create any attribute.
-cat :: T.Text -> T.Text -> (T.Text, T.Text)
-cat a b = (a, b)
+at :: T.Text -> T.Text -> (T.Text, T.Text)
+at a b = (a, b)
 
 infix 0 -.
 -- | Same as cat
 (-.) :: T.Text -> T.Text -> (T.Text, T.Text)
-(-.) a b = cat a b
+(-.) a b = at a b
 
 example :: Tag
 example =
     html [] [
         head' [] [],
-        body [cat "style" "background: #ccc;"] [
+        body [at "style" "background: #ccc;"] [
             text "Hello world.",
-            div' [cat "class" "just-a-div"] [],
+            div' [at "class" "just-a-div"] [],
             div' [] [
                 text "Hello again."
             ]
