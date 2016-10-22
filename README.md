@@ -1,19 +1,21 @@
 Haquery
 =====
 
-### What is this?
-Haquery is **jQuery for Haskell**, a CSS selector based manipulation and template engine.
+**jQuery selector API for Haskell**, a CSS selector based HTML manipulation and template engine.
 
 ### Why?
+
 The advantage is that most web developers already know CSS selectors, and if you are one of them,  
 you don't have to learn a new template language just to render data as HTML pages.
 
 Also, you can use any data structure, any functions with Haquery.  
+
 No more "if there is an if construct why there is no else" moment like with many other template
 languages.
 
 ### Installation
-This package is not Hackage currently, so you have to clone this repo and issue a cabal install locally.
+
+Using `cabal install haquery` or `stack install haquery`.
 
 ### Selectors
 
@@ -53,8 +55,9 @@ This package is not Hackage currently, so you have to clone this repo and issue 
 ### Examples
 
 We can write the HTML data structures in Haskell, or we can parse them from HTML.    
-Now we will focus on the former.
-It is very simple indeed: an HTML tag is nothing else but a tagname, some key value pairs and children:
+We will focus on the former.
+
+An HTML tag is nothing else but a tagname, some key value pairs and children:
 
 ```haskell
 --  Tagname     Attribute 1         Attribute 2         Children
@@ -65,7 +68,7 @@ It is very simple indeed: an HTML tag is nothing else but a tagname, some key va
 ```
 
 'cat' means create attribute. Note that the names are not final. Any suggestion is welcome.  
-div became div', and head is called head' to avoid clash with prelude.
+div became div', and head is called head' to avoid clash with Prelude.
 
 If you want, you can use the general tag form too:
 
@@ -150,4 +153,8 @@ addClass :: T.Text -> Tag -> Tag
 </html>
 ```
 
-More coming soon.
+For parsing HTML into `Tag`s, use `parseHtml`:
+
+```haskell
+parseHtml :: T.Text -> [Tag]
+```
