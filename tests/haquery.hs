@@ -10,35 +10,35 @@ want what verdict = assertBool (show what) verdict
 
 cases1 = [
     -- Id
-    (div' [cat "id" "testId"] [],     "#testId",                    True),
-    (div' [cat "id" "testId"] [],     "#testId1",                   False),
+    (div' [at "id" "testId"] [],     "#testId",                    True),
+    (div' [at "id" "testId"] [],     "#testId1",                   False),
     -- Class
-    (div' [cat "class" "testC"] [],     ".testC",                   True),
-    (div' [cat "class" "testC"] [],     ".test1C",                  False),
-    (div' [cat "class" "cl1 cl2 cl3"] [],     ".cl1",               True),
-    (div' [cat "class" "cl1 cl2 cl3"] [],     ".cl2",               True),
-    (div' [cat "class" "cl1 cl2 cl3"] [],     ".cl3",               True),
-    (div' [cat "class" "cl1 cl2 cl3"] [],     ".cl4",               False),
+    (div' [at "class" "testC"] [],     ".testC",                   True),
+    (div' [at "class" "testC"] [],     ".test1C",                  False),
+    (div' [at "class" "cl1 cl2 cl3"] [],     ".cl1",               True),
+    (div' [at "class" "cl1 cl2 cl3"] [],     ".cl2",               True),
+    (div' [at "class" "cl1 cl2 cl3"] [],     ".cl3",               True),
+    (div' [at "class" "cl1 cl2 cl3"] [],     ".cl4",               False),
     -- Attributes
-    (div' [cat "href" "whatever"] [],   "[href=\"whatever\"]",      True),
-    (div' [cat "href" "whatever"] [],   "[href=\"whaver\"]",        False),
-    (div' [cat "href" "whatever"] [],   "[href=whatever]",          True),
-    (div' [cat "href" "whatever"] [],   "[href=whaver]",            False),
-    (div' [cat "href" "whatever"] [],   "[href^=\"what\"]",         True),
-    (div' [cat "href" "whatever"] [],   "[href^=\"what1\"]",        False),
-    (div' [cat "href" "whatever"] [],   "[href^=what]",             True),
-    (div' [cat "href" "whatever"] [],   "[href^=what1]",            False),
-    (div' [cat "href" "whatever"] [],   "[href$=\"ever\"]",         True),
-    (div' [cat "href" "whatever"] [],   "[href$=\"ever1\"]",        False),
-    (div' [cat "href" "whatever"] [],   "[href$=ever]",             True),
-    (div' [cat "href" "whatever"] [],   "[href$=ever1]",            False),
+    (div' [at "href" "whatever"] [],   "[href=\"whatever\"]",      True),
+    (div' [at "href" "whatever"] [],   "[href=\"whaver\"]",        False),
+    (div' [at "href" "whatever"] [],   "[href=whatever]",          True),
+    (div' [at "href" "whatever"] [],   "[href=whaver]",            False),
+    (div' [at "href" "whatever"] [],   "[href^=\"what\"]",         True),
+    (div' [at "href" "whatever"] [],   "[href^=\"what1\"]",        False),
+    (div' [at "href" "whatever"] [],   "[href^=what]",             True),
+    (div' [at "href" "whatever"] [],   "[href^=what1]",            False),
+    (div' [at "href" "whatever"] [],   "[href$=\"ever\"]",         True),
+    (div' [at "href" "whatever"] [],   "[href$=\"ever1\"]",        False),
+    (div' [at "href" "whatever"] [],   "[href$=ever]",             True),
+    (div' [at "href" "whatever"] [],   "[href$=ever1]",            False),
     -- Composite
-    (div' [cat "id" "tid", cat "class" "tc"] [],   "#tid.tc",       True),
-    (div' [cat "id" "tid", cat "class" "tc"] [],   "#tid.tc1",      False),
-    (div' [cat "id" "tid", cat "class" "tc"] [],   "#tid1.tc",      False),
-    (div' [cat "id" "tid", cat "class" "tc"] [],   ".tc#tid",       True),
-    (div' [cat "id" "tid", cat "class" "tc"] [],   ".tc1#tid",      False),
-    (div' [cat "id" "tid", cat "class" "tc"] [],   ".tc#tid1",      False)
+    (div' [at "id" "tid", at "class" "tc"] [],   "#tid.tc",       True),
+    (div' [at "id" "tid", at "class" "tc"] [],   "#tid.tc1",      False),
+    (div' [at "id" "tid", at "class" "tc"] [],   "#tid1.tc",      False),
+    (div' [at "id" "tid", at "class" "tc"] [],   ".tc#tid",       True),
+    (div' [at "id" "tid", at "class" "tc"] [],   ".tc1#tid",      False),
+    (div' [at "id" "tid", at "class" "tc"] [],   ".tc#tid1",      False)
     ]
 
 t cs = TestCase $ mapM_ f cs
@@ -53,34 +53,34 @@ testMatches = t cases1
 
 cases2 = [
     (
-        div' [cat "id" "t1"] [
-            div' [cat "id" "t2", cat "class" "tclass"] []
+        div' [at "id" "t1"] [
+            div' [at "id" "t2", at "class" "tclass"] []
         ], [("#t2.tclass", 1), (".tclass#t2", 1)]
     ),
     (
-        div' [cat "id" "t1", cat "class" "c1"] [
-            div' [cat "id" "t2", cat "class" "c2"] [
-                div' [cat "id" "t3", cat "class" "c3"] []
+        div' [at "id" "t1", at "class" "c1"] [
+            div' [at "id" "t2", at "class" "c2"] [
+                div' [at "id" "t3", at "class" "c3"] []
             ]
         ],
-		[
-			("#t1 #t2 #t3", 1),
-			("#t1 #t3", 1),
-			("#t1 > #t3", 0),
-			("#t1.c1 #t3.c3", 1),
-			("#t1.c11 #t3.c33", 0)
-		]
+    [
+      ("#t1 #t2 #t3", 1),
+      ("#t1 #t3", 1),
+      ("#t1 > #t3", 0),
+      ("#t1.c1 #t3.c3", 1),
+      ("#t1.c11 #t3.c33", 0)
+    ]
     ),
     (
-        div' [cat "id" "t1", cat "class" "c1"] [
-            div' [cat "id" "t2", cat "class" "c2"] [
-                div' [cat "id" "t3", cat "class" "c3"] [
-                    div' [cat "id" "t4", cat "class" "c4"] []
+        div' [at "id" "t1", at "class" "c1"] [
+            div' [at "id" "t2", at "class" "c2"] [
+                div' [at "id" "t3", at "class" "c3"] [
+                    div' [at "id" "t4", at "class" "c4"] []
                 ]
             ],
-            div' [cat "id" "t21", cat "class" "c21"] [
-                div' [cat "id" "t31", cat "class" "c31"] [
-                    div' [cat "id" "t41", cat "class" "c41"] []
+            div' [at "id" "t21", at "class" "c21"] [
+                div' [at "id" "t31", at "class" "c31"] [
+                    div' [at "id" "t41", at "class" "c41"] []
                 ]
             ]
         ],
@@ -98,17 +98,17 @@ cases2 = [
         ]
     ),
     (
-        html [cat "id" "t1"] [
-            div' [cat "class" "c1"] [],
-            div' [cat "class" "c2"] [],
-            div' [cat "class" "c3"] [],
-            div' [cat "class" "c4"] [],
-            div' [cat "class" "c5"] [],
-            div' [cat "class" "c6"] [],
-            div' [cat "class" "c7"] [
-                tag "li" [cat "class" "l1"] []
+        html [at "id" "t1"] [
+            div' [at "class" "c1"] [],
+            div' [at "class" "c2"] [],
+            div' [at "class" "c3"] [],
+            div' [at "class" "c4"] [],
+            div' [at "class" "c5"] [],
+            div' [at "class" "c6"] [],
+            div' [at "class" "c7"] [
+                tag "li" [at "class" "l1"] []
             ],
-            div' [cat "class" "c8"] []
+            div' [at "class" "c8"] []
         ],
         [
             ("div", 8),
@@ -145,10 +145,10 @@ cases2 = [
     (
         body [] [
             div' [] [],
-            tag "span" [cat "id" "prev"] [],
+            tag "span" [at "id" "prev"] [],
             div' [] [],
             div' [] [
-                div' [cat "id" "small"] []
+                div' [at "id" "small"] []
             ],
             tag "span" [] [],
             div' [] []

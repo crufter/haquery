@@ -61,19 +61,19 @@ An HTML tag is nothing else but a tagname, some key value pairs and children:
 
 ```haskell
 --  Tagname     Attribute 1         Attribute 2         Children
-    body        [cat "id" "x",      cat "class" "y"]    [
+    body        [at "id" "x",      at "class" "y"]    [
         div' [] [], -- Child 1 with no attributes, no children
         div' [] []  -- Child 2 also with no attributes and no children
     ]
 ```
 
-'cat' means create attribute. Note that the names are not final. Any suggestion is welcome.  
+'at' means create attribute. Note that the names are not final. Any suggestion is welcome.  
 div became div', and head is called head' to avoid clash with Prelude.
 
 If you want, you can use the general tag form too:
 
 ```haskell
-    tag "body" [cat "id" "x", cat "class" "y"] [
+    tag "body" [at "id" "x", at "class" "y"] [
         tag "div" [] [],
         tag "div" [] []
     ]
@@ -89,9 +89,9 @@ example :: Tag
 example = html [
         head' [] [],
         body [] [
-            div' [cat "id" "main", cat "class" "c1"] [
-                div' [cat "id" "sub1"] [],
-                div' [cat "id" "sub2"] []
+            div' [at "id" "main", at "class" "c1"] [
+                div' [at "id" "sub1"] [],
+                div' [at "id" "sub2"] []
             ]
         ]
     ]
