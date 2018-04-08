@@ -86,7 +86,7 @@ Now let's look at some complete examples.
 import Haquery
 
 example :: Tag
-example = html [
+example = html [] [
         head' [] [],
         body [] [
             div' [at "id" "main", at "class" "c1"] [
@@ -117,7 +117,7 @@ Let's do a selection.
 
 ```haskell
 > select "#main" example
-[<div id="main" class="c1">
+Right [<div id="main" class="c1">
     <div id="sub1"></div>
     <div id="sub2"></div>
 </div>]
@@ -129,7 +129,7 @@ If we want to modify tags matching a selector, we can use the alter function.
 
 ```haskell
 > :t alter
-alter :: T.Text -> Tag -> (Tag -> Tag) -> Tag
+alter :: T.Text -> (Tag -> Tag) -> Tag -> Either String Tag
 ```
 
 As we can see, the alter functions needs a selector, a tag to search in, and a function which transforms
@@ -141,8 +141,8 @@ addClass :: T.Text -> Tag -> Tag
 ```
 
 ```haskell
-> alter "div" example (addClass "hello-class")
-<html>
+> alter "div" (addClass "hello-class") example
+Right <html>
     <head></head>
     <body>
         <div id="main" class="c1 hello-class">
@@ -156,5 +156,5 @@ addClass :: T.Text -> Tag -> Tag
 For parsing HTML into `Tag`s, use `parseHtml`:
 
 ```haskell
-parseHtml :: T.Text -> [Tag]
+parseHtml :: T.Text -> Either String [Tag]
 ```
