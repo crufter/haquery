@@ -2,9 +2,9 @@
 
 module HaquerySpec (main, spec) where
 
-import Haquery
-import Test.Hspec
-import qualified Data.Text as T
+import qualified Data.Text  as T
+import           Haquery
+import           Test.Hspec
 
 cases1 :: [(Tag, T.Text, Bool)]
 cases1 = [
@@ -216,14 +216,14 @@ spec = do
 
 testMatches :: (Tag, T.Text, Bool) -> Expectation
 testMatches (tag, selector, shouldMatch) =
-  matches selector tag `shouldBe` shouldMatch
+  matches selector tag `shouldBe` Right shouldMatch
 
 testParseHtml :: Tag -> Expectation
 testParseHtml tag =
   -- TODO: use QuickCheck
-  parseHtml (render tag) `shouldBe` [tag]
+  parseHtml (render tag) `shouldBe` Right [tag]
 
 testSelect :: (Tag, [(T.Text, Int)]) -> Expectation
 testSelect (tag, selects) = mapM_ f selects
   where
-    f (selector, numMatches) = length (select selector tag) `shouldBe` numMatches
+    f (selector, numMatches) = length <$> (select selector tag) `shouldBe` Right numMatches
