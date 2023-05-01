@@ -1,5 +1,6 @@
 Haquery
 =====
+[![build](https://github.com/lambdamechanic/haquery/actions/workflows/haskell.yml/badge.svg)](https://github.com/lambdamechanic/haquery/actions/workflows/haskell.yml)
 
 **jQuery selector API for Haskell**, a CSS selector based HTML manipulation and template engine.
 
